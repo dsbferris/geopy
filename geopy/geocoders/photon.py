@@ -36,7 +36,8 @@ class Photon(Geocoder):
             domain='photon.komoot.io',
             user_agent=None,
             ssl_context=DEFAULT_SENTINEL,
-            adapter_factory=None
+            adapter_factory=None,
+            headers=DEFAULT_SENTINEL,
     ):
         """
 
@@ -63,6 +64,9 @@ class Photon(Geocoder):
         :param callable adapter_factory:
             See :attr:`geopy.geocoders.options.default_adapter_factory`.
 
+        :param dict headers:
+            See :attr:`geopy.geocoders.options.default_headers`.
+
             .. versionadded:: 2.0
         """
         super().__init__(
@@ -72,6 +76,7 @@ class Photon(Geocoder):
             user_agent=user_agent,
             ssl_context=ssl_context,
             adapter_factory=adapter_factory,
+            headers=headers,
         )
         self.domain = domain.strip('/')
         self.api = "%s://%s%s" % (self.scheme, self.domain, self.geocode_path)

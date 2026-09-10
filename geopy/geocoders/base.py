@@ -184,6 +184,7 @@ class options:
     default_ssl_context = None
     default_timeout = 1
     default_user_agent = _DEFAULT_USER_AGENT
+    default_headers: dict[str, str] = {}
 
 
 # Create an object which `repr` returns 'DEFAULT_SENTINEL'. Sphinx (docs) uses
@@ -223,7 +224,8 @@ class Geocoder:
             proxies=DEFAULT_SENTINEL,
             user_agent=None,
             ssl_context=DEFAULT_SENTINEL,
-            adapter_factory=None
+            adapter_factory=None,
+            headers=None,
     ):
         self.scheme = scheme or options.default_scheme
         if self.scheme not in ('http', 'https'):
@@ -234,7 +236,8 @@ class Geocoder:
                         else options.default_timeout)
         self.proxies = (proxies if proxies is not DEFAULT_SENTINEL
                         else options.default_proxies)
-        self.headers = {'User-Agent': user_agent or options.default_user_agent}
+        self.headers = (headers if headers is not None else options.default_headers)
+        self.headers.setdefault("User-Agent", user_agent if user_agent is not None else options.default_user_agent)
         self.ssl_context = (ssl_context if ssl_context is not DEFAULT_SENTINEL
                             else options.default_ssl_context)
 
